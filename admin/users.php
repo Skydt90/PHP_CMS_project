@@ -12,7 +12,7 @@
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header">
-                Welcome to Comments
+                Users Panel
                 <small>Author</small>
             </h1>
             

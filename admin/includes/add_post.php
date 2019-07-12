@@ -24,6 +24,7 @@
         
         $post = mysqli_query($connection, $query);
         confirm_query($post);
+        header("Location: posts.php");
     }
 
 ?>
