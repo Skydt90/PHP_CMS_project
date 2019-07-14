@@ -1,13 +1,9 @@
 <?php include "includes/header.php"; ?>
-
-<!-- Navigation -->
 <?php include "includes/navigation.php"; ?>
 
 <!-- Page Content -->
 <div class="container">
-
     <div class="row">
-
         <!-- Blog Entries Column -->
         <div class="col-md-8">
             
@@ -65,25 +61,32 @@
                     $comment_email = $_POST["comment_email"];
                     $comment_content = $_POST["comment_content"];
                     
-                    $query = "INSERT INTO comments (comment_post_id, comment_author, ";  
-                    $query .= "comment_email, comment_content, comment_status, comment_date)";
-                    $query .= "VALUES ($post_id, '{$comment_author}', '{$comment_email}', ";
-                    $query .= "'{$comment_content}', 'unapproved', now())";
-                    
-                    $comment_query = mysqli_query($connection, $query);
-                    if(!$comment_query)
+                    if(!empty($comment_author) && !empty($comment_email) && !empty($comment_content))
                     {
-                        die("Comment query failed: " . mysqli_error($connection));
-                    }
-                    
-                    $query = "UPDATE posts SET post_comment_count = post_comment_count + 1 ";
-                    $query .= "WHERE post_id = $post_id ";
-                    $count_query = mysqli_query($connection, $query);
-                    if(!$count_query)
+                        $query = "INSERT INTO comments (comment_post_id, comment_author, ";  
+                        $query .= "comment_email, comment_content, comment_status, comment_date)";
+                        $query .= "VALUES ($post_id, '{$comment_author}', '{$comment_email}', ";
+                        $query .= "'{$comment_content}', 'unapproved', now())";
+
+                        $comment_query = mysqli_query($connection, $query);
+                        if(!$comment_query)
+                        {
+                            die("Comment query failed: " . mysqli_error($connection));
+                        }
+
+                        $query = "UPDATE posts SET post_comment_count = post_comment_count + 1 ";
+                        $query .= "WHERE post_id = $post_id ";
+                        $count_query = mysqli_query($connection, $query);
+                        if(!$count_query)
+                        {
+                            die("Count query failed: " . mysqli_error($connection));
+                        }
+                        header("Location: post.php?p_id=$post_id");
+                    } 
+                    else
                     {
-                        die("Count query failed: " . mysqli_error($connection));
+                        echo "<script>alert('Fields cannot be empty');</script>";
                     }
-                    header("Location: post.php?p_id=$post_id");
                 }
             
             ?>
@@ -103,7 +106,7 @@
                     </div>
                     <div class="form-group">
                         <label for="Comment">Your Comment</label>
-                        <textarea class="form-control" name="comment_content" rows="3"></textarea>
+                        <textarea class="form-control" id="body" name="comment_content" rows="3"></textarea>
                     </div>
                     <button type="submit" name="create_comment" class="btn btn-primary">Submit</button>
                 </form>

@@ -73,6 +73,14 @@ function delete_category()
     }
 }
 
+function update_post_status($bulk_options, $checkBoxValueId)
+{
+    global $connection;
+    $query = "UPDATE posts SET post_status = '{$bulk_options}' WHERE post_id = {$checkBoxValueId}";
+    $draft_query = mysqli_query($connection, $query);
+    confirm_query($draft_query);
+}
+
 
 
 

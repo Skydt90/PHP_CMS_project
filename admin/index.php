@@ -165,9 +165,10 @@
                         <?php 
                         
                         $chart_data = 
-                            ["Active Posts" => $published_post_count, "Pending Posts" => $draft_post_count, 
+                            ["Total Posts" => $post_count, "Active Posts" => $published_post_count, 
+                             "Pending Posts" => $draft_post_count, "Total Comments" => $comment_count,
                              "Active Comments" => $approved_comments, "Pending Comments" => $unapproved_comments, 
-                             "Admins" => $admin_count, "Subscribers" => $subscriber_count, 
+                             "Total Users" => $user_count, "Admins" => $admin_count, "Subscribers" => $subscriber_count, 
                              "Categories" => $category_count];
                         
                         foreach($chart_data as $key => $value) 

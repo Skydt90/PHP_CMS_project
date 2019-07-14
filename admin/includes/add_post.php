@@ -29,16 +29,14 @@
 
 ?>
    
-
-   
 <form action="" method="post" enctype="multipart/form-data">
-    
+
     <div class="form-group">
         <label for="title">Post Title</label>
         <input type="text" class="form-control" name="post_title">
     </div>
     
-   <div class="form-group">
+    <div class="form-group">
        <select name="post_category" id="post_category">        
            <?php 
             $query = "SELECT * FROM categories";
@@ -63,8 +61,11 @@
     </div>
     
     <div class="form-group">
-        <label for="post_status">Post Status</label>
-        <input type="text" class="form-control" name="post_status">
+        <select name="post_status" id="">
+            <option value="draft">Post Status</option>
+            <option value="published">Publish</option>
+            <option value="draft">Draft</option> 
+        </select>
     </div>
     
     <div class="form-group">
@@ -79,8 +80,8 @@
     
     <div class="form-group">
         <label for="post_content">Post Content</label>
-        <textarea name="post_content" id="" cols="30" rows="10" class="form-control">
-        </textarea>
+        <textarea name="post_content" id="body" cols="30" rows="10" class="form-control">
+        </textarea>    
     </div>
     
     <div class="form-group">

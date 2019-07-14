@@ -11,7 +11,6 @@
 
     while($row = mysqli_fetch_assoc($result))
     {
-        //$post_id = $row["post_id"];
         $post_author = $row["post_author"];
         $post_title = $row["post_title"];
         $post_category_id = $row["post_category_id"];
@@ -58,7 +57,7 @@
         
         $result = mysqli_query($connection, $query);
         confirm_query($result);
-        header("Location: posts.php");
+        echo "<p class='bg-success'>Post updated. <a href='../post.php?p_id=$post_id'> View Post</a> or <a href='./posts.php'> Edit another post</a>";
     }
 
 
@@ -126,7 +125,7 @@
     
     <div class="form-group">
         <label for="post_content">Post Content</label>
-        <textarea name="post_content" id="" cols="30" rows="10" class="form-control"><?php echo $post_content; ?>
+        <textarea name="post_content" id="body" cols="30" rows="10" class="form-control"><?php echo $post_content; ?>
         </textarea>
     </div>
     

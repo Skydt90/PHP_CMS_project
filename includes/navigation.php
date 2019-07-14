@@ -32,12 +32,32 @@
                 <li>
                     <a href="admin">Admin</a>
                 </li>
-               <!-- <li>
-                    <a href="#">Services</a>
+                
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <?php session_start(); echo $_SESSION["username"]; ?> <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="admin/profile.php"><i class="fa fa-fw fa-user"></i> Profile</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="./includes/logout.php"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                        </li>
+                    </ul>
                 </li>
-                <li>
-                    <a href="#">Contact</a>
-                </li> -->
+                
+                <?php 
+                    
+                    if(isset($_SESSION["user_role"]))
+                    {
+                        if(isset($_GET["p_id"]))
+                        {
+                           $post_id = $_GET["p_id"];
+                           echo "<li><a href='admin/posts.php?source=edit_post&p_id={$post_id}'>Edit post</a></li>";
+                        }
+                    }
+                
+                ?>
             </ul>
         </div>
         <!-- /.navbar-collapse -->
