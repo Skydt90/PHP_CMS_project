@@ -13,15 +13,23 @@
         $username = $_POST["username"];
         $user_email = $_POST["user_email"];
         $user_password = $_POST["user_password"];
+        
+        $query = "SELECT rand_salt FROM users";
+        $salt_query = mysqli_query($connection, $query);
+        confirm_query($salt_query);
+
+        $row = mysqli_fetch_array($salt_query);
+        $salt = $row["rand_salt"];
+        $user_password = crypt($user_password, $salt);
     
         /*
         $post_date = date("d-m-y");
         move_uploaded_file($post_image_tmp, "../images/$post_image"); */
         
         $query = "INSERT INTO users(user_firstname, user_lastname, user_role, username, ";
-        $query .= "user_email, user_password, user_image, rand_salt) ";
+        $query .= "user_email, user_password, user_image) ";
         $query .= "VALUES ('{$user_firstname}', '{$user_lastname}', '{$user_role}', ";
-        $query .= "'{$username}', '{$user_email}', '{$user_password}', '', '')";
+        $query .= "'{$username}', '{$user_email}', '{$user_password}', '')";
         
         $create_user_query = mysqli_query($connection, $query);
         confirm_query($create_user_query);

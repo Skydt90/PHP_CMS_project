@@ -17,37 +17,33 @@
         
         confirm_query($user_query); 
         
-        if($user_query -> num_rows == 0)
+        
+        while($row = mysqli_fetch_assoc($user_query))
         {
-            header("Location: ../index.php"); 
-            echo "No users with that name"; 
-        } 
-        else
+            $db_user_id = $row["user_id"];
+            $db_username = $row["username"];
+            $db_user_password = $row["user_password"];
+            $db_user_firstname = $row["user_firstname"];
+            $db_user_lastname = $row["user_lastname"];
+            $db_user_role = $row["user_role"];         
+        }
+
+        $password = crypt($password, $db_user_password);
+
+        if($username !== $db_username && $password !== $db_user_password)
         {
-            while($row = mysqli_fetch_assoc($user_query))
-            {
-                $db_user_id = $row["user_id"];
-                $db_username = $row["username"];
-                $db_user_password = $row["user_password"];
-                $db_user_firstname = $row["user_firstname"];
-                $db_user_lastname = $row["user_lastname"];
-                $db_user_role = $row["user_role"];         
-            }
-            
-            if($username !== $db_username && $password !== $db_user_password)
-            {
-                header("Location: ../index.php");
-                echo "Wrong username or password"; 
-            }
-            else if ($username == $db_username && $password == $db_user_password)
-            {
-                $_SESSION["username"] = $db_username;
-                $_SESSION["firstname"] = $db_user_firstname;
-                $_SESSION["lastname"] = $db_user_lastname;
-                $_SESSION["user_role"] = $db_user_role;
-                header("Location: ../admin");  
-            }
-        } 
-    }
+            header("Location: ../index.php");
+            echo "Wrong username or password"; 
+        }
+        else if ($username == $db_username && $password == $db_user_password)
+        {
+            $_SESSION["username"] = $db_username;
+            $_SESSION["firstname"] = $db_user_firstname;
+            $_SESSION["lastname"] = $db_user_lastname;
+            $_SESSION["user_role"] = $db_user_role;
+            header("Location: ../admin");  
+        }
+    } 
+    
 
 ?>
