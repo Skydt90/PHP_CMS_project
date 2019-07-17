@@ -81,6 +81,50 @@ function update_post_status($bulk_options, $checkBoxValueId)
     confirm_query($draft_query);
 }
 
+function clone_post($checkBoxValueId)
+{
+    global $connection;
+    $query = "SELECT * FROM posts WHERE post_id = {$checkBoxValueId} ";
+    $post_query = mysqli_query($connection, $query);
+    
+    while($row = mysqli_fetch_assoc($post_query))
+    {
+        $post_title = $row["post_title"];
+        $post_category_id = $row["post_category_id"];
+        $post_date = $row["post_date"];
+        $post_author = $row["post_author"];
+        $post_status = $row["post_status"];
+        $post_image = $row["post_image"];
+        $post_tags = $row["post_tags"];
+        $post_content = $row["post_content"];
+        $post_comment_count = 0;
+        
+        $query = "INSERT INTO posts(post_category_id, post_title, post_author, post_date, post_image, ";
+        $query .= "post_content, post_tags, post_comment_count, post_status) ";
+        $query .= "VALUES ({$post_category_id}, '{$post_title}', '{$post_author}', now(), '{$post_image}', ";
+        $query .= "'{$post_content}', '{$post_tags}', {$post_comment_count}, '{$post_status}')";
+        
+        $post = mysqli_query($connection, $query);
+        confirm_query($post);
+    }
+}
+
+function reset_post_view_count($checkBoxValueId)
+{
+    global $connection;
+    $query = "UPDATE posts SET post_view_count = 0 WHERE post_id = {$checkBoxValueId}";
+    $reset_query = mysqli_query($connection, $query);
+    confirm_query($reset_query);          
+}
+
+function delete_post($checkBoxValueId) 
+{
+    global $connection;
+    $query = "DELETE FROM posts WHERE post_id = {$checkBoxValueId}";
+    $delete_query = mysqli_query($connection, $query);
+    confirm_query($delete_query);
+}
+
 
 
 

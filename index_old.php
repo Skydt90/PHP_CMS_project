@@ -12,32 +12,8 @@
         <div class="col-md-8">
             
         <?php
-            $per_page = 3; 
-            
-            if(isset($_GET["page"]))
-            {
-                $page = $_GET["page"];
-            }
-            else 
-            {
-                $page = "";
-            }
-            
-            if($page == "" || $page == 1)
-            {
-                $page1 = 0;
-            } 
-            else 
-            {
-                $page1 = ($page * $per_page) - $per_page;
-            }
-            
-            $post_count_query = "SELECT * FROM posts"; 
-            $result = mysqli_query($connection, $post_count_query);
-            $count = mysqli_num_rows($result); 
-            $count = ceil($count / $per_page); 
-            
-            $query = "SELECT * FROM posts WHERE post_status = 'published' ORDER BY post_id DESC LIMIT {$page1}, {$per_page}";
+        
+            $query = "SELECT * FROM posts WHERE post_status = 'published' ";
             $posts = mysqli_query($connection, $query);
             
             if($posts -> num_rows == 0)
@@ -91,26 +67,7 @@
     <!-- Blog Sidebar Widgets Column -->
     <?php include "includes/sidebar.php"; ?>
     </div>
-    
-    <!-- pager -->
-    <ul class="pager">
-        <?php
-        
-            for($i = 1; $i <= $count; $i++)
-            {
-                if($i == $page || $page == "" && $i == 1) 
-                {
-                    echo "<li><a class='active_link' href='index.php?page={$i}'>{$i}</a></li>";
-                }
-                else
-                {
-                    echo "<li><a href='index.php?page={$i}'>{$i}</a></li>";
-                }
-            }
-        
-        ?>   
-    </ul>
-    
+    <!-- /.row -->
     <hr>
 <?php include "includes/footer.php"; ?>
         
