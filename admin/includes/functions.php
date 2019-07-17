@@ -125,7 +125,51 @@ function delete_post($checkBoxValueId)
     confirm_query($delete_query);
 }
 
+function users_online()
+{
+    if(isset($_GET["onlineusers"]))
+    { 
+        global $connection;
+        
+        if(!$connection)
+        {
+            session_start();
+            include "admin_db.php";
+            
+            // start a new session
+            $session = session_id();
+            $time = time();
+            $timeout_in_seconds = 60;
+            $timeout = $time - $timeout_in_seconds;
 
+            // check if the session is in DB, else its a new user
+            $query = "SELECT * FROM users_online WHERE session = '{$session}'";
+            $timeout_query = mysqli_query($connection, $query);
+            confirm_query($timeout_query);
+            $count = mysqli_num_rows($timeout_query);
+
+            // if new user insert session info to db
+            if($count == null)
+            {
+                $new_user_query = "INSERT INTO users_online(session, time) VALUES('$session', $time)";
+                confirm_query(mysqli_query($connection, $new_user_query));
+            }
+            else 
+            {
+                $update_online_user_query = "UPDATE users_online SET time = {$time} WHERE session = '{$session}'";
+                confirm_query(mysqli_query($connection, $update_online_user_query));
+            }
+
+            $online_users_query = "SELECT * FROM users_online WHERE time > $timeout"; 
+            $result = mysqli_query($connection, $online_users_query);    
+            confirm_query($result);
+            $user_count = mysqli_num_rows($result);
+            echo $user_count;
+        }    
+    } // get request AJAX
+}
+
+users_online();
 
 
 

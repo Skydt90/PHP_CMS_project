@@ -16,14 +16,8 @@
             $username = mysqli_real_escape_string($connection, $username);
             $email = mysqli_real_escape_string($connection, $email);
             $password = mysqli_real_escape_string($connection, $password);
-
-            $query = "SELECT rand_salt FROM users";
-            $salt_query = mysqli_query($connection, $query);
-            confirm_query($salt_query);
-
-            $row = mysqli_fetch_array($salt_query);
-            $salt = $row["rand_salt"];
-            $password = crypt($password, $salt);
+            
+            $password = password_hash($password, PASSWORD_BCRYPT, array("cost" => 12));
 
             $query = "INSERT INTO users (username, user_email, user_password, user_role) ";
             $query .= "VALUES ('$username', '$email', '$password', 'subscriber' )";

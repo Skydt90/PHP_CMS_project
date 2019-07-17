@@ -37,4 +37,16 @@ $(document).ready(function()
     });*/
     
 });
+
+function loadOnlineUsers()
+{
+    $.get("includes/functions.php?onlineusers=result", function(data){
+        $(".usersonline").text(data);
+    });
+}
+
+setInterval(function() 
+{
+    loadOnlineUsers();
+}, 500);
    
