@@ -23,7 +23,7 @@
                 while($row = mysqli_fetch_assoc($posts))
                 {
                     $post_title = $row["post_title"];
-                    $post_author = $row["post_author"];
+                    $post_user = $row["post_user"]; 
                     $post_date = $row["post_date"];
                     $post_image = $row["post_image"];
                     $post_content = $row["post_content"];
@@ -38,7 +38,7 @@
                         <a href="#"> <?php echo $post_title ?></a>
                     </h2>
                     <p class="lead">
-                        by <a href="author_posts.php?author=<?php echo $post_author ?>&p_id=<?php echo $post_id ?>"> <?php echo $post_author ?> </a>
+                        by <a href="user_posts.php?user=<?php echo $post_user ?>&p_id=<?php echo $post_id ?>"> <?php echo $post_user ?> </a>
                     </p>
                     <p><span class="glyphicon glyphicon-time"></span> 
                         <?php echo $post_date ?>
@@ -79,19 +79,7 @@
                         $query .= "'{$comment_content}', 'unapproved', now())";
 
                         $comment_query = mysqli_query($connection, $query);
-                        if(!$comment_query)
-                        {
-                            die("Comment query failed: " . mysqli_error($connection));
-                        }
-
-                        $query = "UPDATE posts SET post_comment_count = post_comment_count + 1 ";
-                        $query .= "WHERE post_id = $post_id ";
-                        $count_query = mysqli_query($connection, $query);
-                        if(!$count_query)
-                        {
-                            die("Count query failed: " . mysqli_error($connection));
-                        }
-                        header("Location: post.php?p_id=$post_id");
+                        confirm_query($comment_query);
                     } 
                     else
                     {

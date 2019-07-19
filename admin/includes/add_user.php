@@ -1,45 +1,40 @@
 <?php 
+    
+    $message = "";
 
     if(isset($_POST["create_user"]))
     {
-        $user_firstname = $_POST["user_firstname"];
-        $user_lastname = $_POST["user_lastname"];
-        $user_role = $_POST["user_role"];
-        
-        /*
-        $post_image = $_FILES["post_image"]["name"];
-        $post_image_tmp = $_FILES["post_image"]["tmp_name"]; */
-        
-        $username = $_POST["username"];
-        $user_email = $_POST["user_email"];
-        $user_password = $_POST["user_password"];
-        
-        $query = "SELECT rand_salt FROM users";
-        $salt_query = mysqli_query($connection, $query);
-        confirm_query($salt_query);
-
-        $row = mysqli_fetch_array($salt_query);
-        $salt = $row["rand_salt"];
-        $user_password = crypt($user_password, $salt);
+        $user_firstname = escape($_POST["user_firstname"]);
+        $user_lastname = escape($_POST["user_lastname"]);
+        $user_role = escape($_POST["user_role"]);
+        $username = escape($_POST["username"]);
+        $user_email = escape($_POST["user_email"]);
+        $user_password = escape($_POST["user_password"]);
     
-        /*
-        $post_date = date("d-m-y");
-        move_uploaded_file($post_image_tmp, "../images/$post_image"); */
-        
-        $query = "INSERT INTO users(user_firstname, user_lastname, user_role, username, ";
-        $query .= "user_email, user_password, user_image) ";
-        $query .= "VALUES ('{$user_firstname}', '{$user_lastname}', '{$user_role}', ";
-        $query .= "'{$username}', '{$user_email}', '{$user_password}', '')";
-        
-        $create_user_query = mysqli_query($connection, $query);
-        confirm_query($create_user_query);
-        header("Location: users.php");
+        if(!empty($username) && !empty($user_email) && !empty($user_password))
+        {   
+            $user_password = password_hash($user_password, PASSWORD_BCRYPT, array("cost" => 10));
+
+            $query = "INSERT INTO users(user_firstname, user_lastname, user_role, username, ";
+            $query .= "user_email, user_password, user_image) ";
+            $query .= "VALUES ('{$user_firstname}', '{$user_lastname}', '{$user_role}', ";
+            $query .= "'{$username}', '{$user_email}', '{$user_password}', '')";
+
+            $create_user_query = mysqli_query($connection, $query);
+            confirm_query($create_user_query);
+            
+            $message = "Registration Complete";
+        }
+        else
+        {
+            $message = "Fields cannot be empty";
+        }
     }
 
 ?>
    
 <form action="" method="post" enctype="multipart/form-data">
-   
+    <h6 class="text-center"><?php echo $message; ?></h6>    
     <div class="form-group">
         <label for="post_tags">Username</label>
         <input type="text" class="form-control" name="username">
@@ -71,12 +66,6 @@
         <label for="post_status">Last name</label>
         <input type="text" class="form-control" name="user_lastname">
     </div> 
-    <!--
-    <div class="form-group">
-        <label for="post_image">Post Image</label>
-        <input type="file" name="post_image">
-    </div> 
-    -->
     <div class="form-group">
         <input type="submit" class="btn btn-primary" name="create_user" value="Create User">
     </div>  

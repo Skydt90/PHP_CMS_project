@@ -57,7 +57,7 @@ if(isset($_POST["checkBoxArray"]))
             <thead>
                 <tr>
                     <th><input id="selectAllBoxes" type="checkbox"></th>
-                    <th>Author</th>
+                    <th>Post by</th>
                     <th>Title</th>
                     <th>Category</th>
                     <th>Status</th>
@@ -68,7 +68,6 @@ if(isset($_POST["checkBoxArray"]))
                     <th>View Count</th>
                     <th>Read</th> 
                     <th>Edit</th>
-                    <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -79,11 +78,13 @@ if(isset($_POST["checkBoxArray"]))
 
                     while($row = mysqli_fetch_assoc($result))
                     {
+                        $post_user = $row["post_user"];
                         echo "<tr>";
                         ?>
                         <td><input class='checkBoxes' type='checkbox' name='checkBoxArray[]' value='<?php echo $row["post_id"]; ?>'></td>
                         <?php
-                        echo "<td>{$row["post_author"]}</td>";
+  
+                        echo "<td>{$post_user}</td>";
                         echo "<td>{$row["post_title"]}</td>";
                         
                         $category_query = "SELECT * FROM categories WHERE category_id = {$row["post_category_id"]}";
@@ -96,13 +97,18 @@ if(isset($_POST["checkBoxArray"]))
                         echo "<td>{$row["post_status"]}</td>";
                         echo "<td><img width='100' src='../images/{$row["post_image"]}' alt='image'></td>";
                         echo "<td>{$row["post_tags"]}</td>";
-                        echo "<td>{$row["post_comment_count"]}</td>";
+                        
+                        $query = "SELECT * FROM comments WHERE comment_post_id = {$row["post_id"]}";
+                        $comment_query = mysqli_query($connection, $query);
+                        
+                        $comment_count = mysqli_num_rows($comment_query);
+                        echo "<td><a href='post_comments.php?id={$row["post_id"]}&title={$row["post_title"]}'>{$comment_count}</a></td>";
+                        
                         echo "<td>{$row["post_date"]}</td>";
                         echo "<td>{$row["post_view_count"]}</td>";
                         
                         echo "<td><a href='../post.php?p_id={$row["post_id"]}'>Read</a></td>";
                         echo "<td><a href='posts.php?source=edit_post&p_id={$row["post_id"]}'>Edit</a></td>";
-                        echo "<td><a href='posts.php?reset={$row["post_id"]}'>{$row["post_view_count"]}</a></td>";
                         echo "</tr>"; 
                     }  
                 ?>               

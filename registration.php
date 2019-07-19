@@ -5,7 +5,7 @@
     
     $message = "";
     
-    if(isset($_POST["submit"]))
+    if(isset($_POST["create_user"]))
     {
         $username = $_POST["username"];
         $email = $_POST["email"];
@@ -24,7 +24,7 @@
             $register_user_query = mysqli_query($connection, $query);
             confirm_query($register_user_query);
             
-            header("Location: registration.php");
+            $message = "Registration complete!";
         }
         else
         {
@@ -62,7 +62,7 @@
                                     <input type="password" name="password" id="key" class="form-control" placeholder="Password">
                                 </div>
 
-                                <input type="submit" name="submit" id="btn-login" class="btn btn-custom btn-lg btn-block" value="Register">
+                                <input type="submit" name="create_user" id="btn-login" class="btn btn-custom btn-lg btn-block" value="Register">
                                 
                             </form>      
                         </div>

@@ -5,11 +5,12 @@
        <?php // Prep update                      
         if(isset($_GET["edit"]))
         {
-            $category_id = $_GET["edit"];
+            $category_id = escape($_GET["edit"]);
             
             $query = "SELECT * FROM categories WHERE category_id = {$category_id}";
             $select_categories_id = mysqli_query($connection, $query);
-
+            confirm_query($select_categories_id);
+            
             while($row = mysqli_fetch_assoc($select_categories_id))
             {
                 $category_id = $row["category_id"];
@@ -22,17 +23,14 @@
   <?php
         // Update query
         
-        if(isset($_POST["edit"]))
+        if(isset($_POST["edit"])) 
         {
-            $category_title = $_POST["category_title"];
+            $category_title = escape($_POST["category_title"]);
             $query = "UPDATE categories SET category_title = '{$category_title}' ";
             $query .= "WHERE category_id = {$category_id}";
             $update = mysqli_query($connection, $query);
             header("Location: categories.php"); // refresh the page
-            if(!$update)
-            {
-                die("Update query failed: " . mysqli_error($connection));    
-            }
+            confirm_query($update);
         }  
   ?>
     </div>

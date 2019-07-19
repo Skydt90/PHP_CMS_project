@@ -1,6 +1,13 @@
 <?php 
 
 
+function escape($string)
+{
+    global $connection;
+    return mysqli_real_escape_string($connection, trim($string));
+}
+
+
 function confirm_query($result)
 {
     global $connection;
@@ -92,16 +99,16 @@ function clone_post($checkBoxValueId)
         $post_title = $row["post_title"];
         $post_category_id = $row["post_category_id"];
         $post_date = $row["post_date"];
-        $post_author = $row["post_author"];
+        $post_user = $row["post_user"];
         $post_status = $row["post_status"];
         $post_image = $row["post_image"];
         $post_tags = $row["post_tags"];
         $post_content = $row["post_content"];
         $post_comment_count = 0;
         
-        $query = "INSERT INTO posts(post_category_id, post_title, post_author, post_date, post_image, ";
+        $query = "INSERT INTO posts(post_category_id, post_title, post_user, post_date, post_image, ";
         $query .= "post_content, post_tags, post_comment_count, post_status) ";
-        $query .= "VALUES ({$post_category_id}, '{$post_title}', '{$post_author}', now(), '{$post_image}', ";
+        $query .= "VALUES ({$post_category_id}, '{$post_title}', '{$post_user}', now(), '{$post_image}', ";
         $query .= "'{$post_content}', '{$post_tags}', {$post_comment_count}, '{$post_status}')";
         
         $post = mysqli_query($connection, $query);

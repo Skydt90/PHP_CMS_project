@@ -59,7 +59,7 @@
                             {
                                 $category_title = $row["category_title"];
                                 $category_id= $row["category_id"];
-                                echo "<li><a href='category.php?category={$category_id}'>{$category_title}</a></li>";
+                                echo "<li><a href='category.php?category={$category_id}&category_title={$category_title}'>{$category_title}</a></li>";
                             }       
                             
                            ?>

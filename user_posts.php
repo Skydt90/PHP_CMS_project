@@ -12,22 +12,22 @@
             if(isset($_GET["p_id"]))
             {
                 $post_id = $_GET["p_id"];
-                $post_author = $_GET["author"];
+                $post_user = $_GET["user"];
             } ?>
             
             <h1 class="page-header">
-                All posts by <small><?php echo $post_author; ?></small>
+                All posts by <small><?php echo $post_user; ?></small>
             </h1>
             
         <?php 
             
-            $query = "SELECT * FROM posts where post_author = '{$post_author}' ";
+            $query = "SELECT * FROM posts where post_user = '{$post_user}' ";
             $posts = mysqli_query($connection, $query);
 
             while($row = mysqli_fetch_assoc($posts))
             {
                 $post_title = $row["post_title"];
-                $post_author = $row["post_author"];
+                $post_user = $row["post_user"];
                 $post_date = $row["post_date"];
                 $post_image = $row["post_image"];
                 $post_content = $row["post_content"];

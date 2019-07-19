@@ -24,7 +24,8 @@
                 while($row = mysqli_fetch_assoc($categories_query))
                 {
                     $category_title = $row["category_title"];
-                    echo "<li><a href='#'>{$category_title}</a></li>";
+                    $category_id = $row["category_id"];
+                    echo "<li><a href='category.php?category={$category_id}&category_title={$category_title}'>{$category_title}</a></li>";
                 }
             
                 ?>  
@@ -35,26 +36,30 @@
                     <a href="registration.php">Registration</a>
                 </li>
                 
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> 
-                       <?php session_start();
-                            if(isset($_SESSION["username"]))
-                            {
-                                echo $_SESSION["username"];
-                            }
-                        ?>
-                         <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="admin/profile.php"><i class="fa fa-fw fa-user"></i> Profile</a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="./includes/logout.php"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
-                        </li>
-                    </ul>
+                <li>
+                    <a href="contact.php">Contact</a>
                 </li>
-                
+                <?php session_start();
+                if(isset($_SESSION["username"]))
+                {
+                    $username = $_SESSION["username"];
+                 ?>
+                    <li class="dropdown">
+                    
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>
+                            <?php echo $username; ?>    
+                             <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="admin/profile.php"><i class="fa fa-fw fa-user"></i> Profile</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="./includes/logout.php"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                            </li>
+                        </ul>
+                    </li>
+            
                 <?php 
                     
                     if(isset($_SESSION["user_role"]))
@@ -65,7 +70,7 @@
                            echo "<li><a href='admin/posts.php?source=edit_post&p_id={$post_id}'>Edit post</a></li>";
                         }
                     }
-                
+                }
                 ?>
             </ul>
         </div>

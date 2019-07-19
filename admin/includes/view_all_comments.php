@@ -34,15 +34,7 @@
                         echo "<tr>";
                         echo "<td>{$comment_id}</td>";
                         echo "<td>{$comment_author}</td>";
-                        echo "<td>{$comment_content}</td>";                        
-                        /*
-                        $category_query = "SELECT * FROM categories WHERE category_id = {$row["post_category_id"]}";
-                        $category_result = mysqli_query($connection, $category_query);
-                        while($rows = mysqli_fetch_assoc($category_result))
-                        {
-                            $category_title = $rows["category_title"];       
-                        }
-                        echo "<td>{$category_title}</td>";*/
+                        echo "<td>{$comment_content}</td>";                                 
                         echo "<td>{$comment_email}</td>";
                         echo "<td>{$comment_status}</td>";
                         
@@ -75,7 +67,6 @@
             $delete_query = mysqli_query($connection, $query);
             confirm_query($delete_query);
             header("Location: comments.php");
-            
         }
 
         if(isset($_GET["unapprove"]))
